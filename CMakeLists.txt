@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Set to the folder containing SDL libraries
-set(CMAKE_PREFIX_PATH "C:/msys64/Libraries")
+# set(CMAKE_PREFIX_PATH "C:/msys64/Libraries")
 
 # change to the project's name
 project(Minesweeper)
