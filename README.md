@@ -1,4 +1,4 @@
-## Minesweeper
+# Minesweeper
 
 This is a C++ implementation of the classic minesweeper game.
 
