@@ -9,8 +9,7 @@
 #include <memory>
 #include <vector>
 
-/* returns a colour based on the number of surrounding bombs */
-SDL_Color getColour(const int& numSurroundingBombs);
+SDL_Color getColour(int numSurroundingBombs);
 
 /* A cell in the minesweeper board */
 class Cell
@@ -21,29 +20,18 @@ class Cell
             std::shared_ptr<LTexture> bkg_hidden = nullptr, std::shared_ptr<LTexture> flag_tex = nullptr, 
             std::shared_ptr<LTexture> bomb_tex = nullptr
         );
-        /* Deallocates resources */
         ~Cell();
 
-        /* renders the cell into the specified rect */
-        void render(SDL_Rect *dest) const;
+        void render(SDL_Rect *dest);
 
-        /* true if the cell contains a bomb */
         bool isBomb() const;
-        /* true if the cell has been revealed */
         bool isRevealed() const;
-        /* true if the cell has a flag */
         bool hasFlag() const;
-        /* returns the number of surrounding cells */
         int numSurrounding() const;
 
-        /* Reveals the cell. If there are no surrounding bombs, reveals surrounding cells.
-         * Returns true if the cell is a bomb */
         bool reveal();
-
-        /* Toggles the cell's flag. Returns true if the cell is a bomb */
         bool toggleFlag();
 
-        /* counts and saves the number of surrounding bombs */
         void countSurrounding();
 
     private:

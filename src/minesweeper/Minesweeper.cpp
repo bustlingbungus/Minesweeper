@@ -1,18 +1,21 @@
 #include "Minesweeper.hpp"
 
 /* Assign variables */
-Minesweeper::Minesweeper(std::shared_ptr<LWindow> window)
-: window(window), WIDTH(window->getWidth()-(2*MARGIN_SIZE)), HEIGHT(window->getHeight()-(2*MARGIN_SIZE))
+Minesweeper::Minesweeper(std::shared_ptr<LWindow> window, int GRIDX, int GRIDY)
+: window(window), WIDTH(window->getWidth()-(2*MARGIN_SIZE)), HEIGHT(window->getHeight()-(2*MARGIN_SIZE)),
+  GRIDX(GRIDX), GRIDY(GRIDY)
 {
     // create textures 
     loadTextures("../../assets/");
+    // create the game
+    createGrid(GRIDX, GRIDY);
 }
 
 /* Deallocate resources */
 Minesweeper::~Minesweeper()
 {
     // clear the grid
-    for (auto row : cells) row.clear();
+    for (auto& row : cells) row.clear();
     cells.clear();
 
     // free all textures
@@ -33,6 +36,13 @@ void Minesweeper::getInput(SDL_Event& e)
         SDL_GetMouseState(&x, &y);
         if (e.button.button == SDL_BUTTON_LEFT) leftClick(x, y);
         else if (e.button.button == SDL_BUTTON_RIGHT) rightClick(x, y);
+    }
+    // reset the grame is space is pressed
+    else if (e.type == SDL_KEYDOWN) {
+        if (e.key.keysym.sym == SDLK_SPACE) {
+            createGrid(GRIDX, GRIDY);
+            game_over = false;
+        }
     }
 }
 

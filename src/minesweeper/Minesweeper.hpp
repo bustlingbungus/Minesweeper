@@ -23,25 +23,19 @@
 class Minesweeper
 {
     public:
-        Minesweeper(std::shared_ptr<LWindow> window);
-        /* Deallocates resources */
+        Minesweeper(std::shared_ptr<LWindow> window, int GRIDX = 10, int GRIDY = 10);
         ~Minesweeper();
 
-        /* Reads left/right mouse input */
         void getInput(SDL_Event& e);
 
-        /* renders the grid, and any other text */
         void render() const;
 
-        /* Creates the grid containing all cells */
         void createGrid(const int& width, const int& height);
 
     private:
 
         /* Input functions */
-        // left clicks (x,y)
         void leftClick(const int& x, const int& y);
-        // right clicks (x,y)
         void rightClick(const int& x, const int& y);
 
 
@@ -53,6 +47,8 @@ class Minesweeper
         int GRIDLINE_WIDTH = 3;
         // the chance each cell has to be a bomb
         double BOMB_CHANCE = 0.25;
+        // dimensions of the minesweeper grid
+        int GRIDX, GRIDY;
 
 
         /* ==========  GAME VARIABLES  ========== */
@@ -81,23 +77,17 @@ class Minesweeper
         std::shared_ptr<LTexture> cell_bkg0 = nullptr, cell_bkg1 = nullptr, line_col = nullptr,
             flag = nullptr, bomb = nullptr, win = nullptr, lose = nullptr;
 
-        /* creates all textures */
         void loadTextures(const std::string& assets_dir);
 
 
 
         /* ==========  HELPER FUNCTIONS  ========== */
 
-        /* Renders all cells */
         void renderCells(const int& w, const int& h, const int& side_len) const;
-        /* Renders grid lines */
         void renderGridlines(const int& w, const int& h, const int& side_len) const;
         
-        /* Reveals all hidden cells */
         void revealAll();
 
-        /* Reveals a cell with zero adjacent bombs closest to the centre of the grid.
-           returns false if there are no cells with zero bombs */
         bool breakBoard();
 };
 

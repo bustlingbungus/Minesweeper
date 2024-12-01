@@ -26,8 +26,7 @@ int main()
     auto window = std::make_shared<LWindow>(WIDTH, HEIGHT, "Minesweeper");
 
     // initialise the game, and create a grid
-    Minesweeper minesweeper(window);
-    minesweeper.createGrid(10, 10);
+    Minesweeper minesweeper(window, 10, 10);
 
     SDL_Event e;
     bool quit = false;
