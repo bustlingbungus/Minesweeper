@@ -8,7 +8,7 @@ set(SDL2_ttf_DIR "${CMAKE_PREFIX_PATH}/SDL_ttf/lib/cmake/SDL2_ttf")
 set(SDL2_mixer_DIR "${CMAKE_PREFIX_PATH}/SDL_mixer/lib/cmake/SDL2_mixer")
 
 # change to the project's name
-project(project)
+project(Minesweeper)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SDL2 REQUIRED CONFIG)
