@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Set to the folder containing SDL libraries
-# set(CMAKE_PREFIX_PATH "C:/msys64/Libraries")
+set(CMAKE_PREFIX_PATH "C:/msys64/Libraries")
+set(SDL2_DIR "${CMAKE_PREFIX_PATH}/SDL/lib/cmake/SDL2")
+set(SDL2_image_DIR "${CMAKE_PREFIX_PATH}/SDL_Image/lib/cmake/SDL2_Image")
+set(SDL2_ttf_DIR "${CMAKE_PREFIX_PATH}/SDL_ttf/lib/cmake/SDL2_ttf")
+set(SDL2_mixer_DIR "${CMAKE_PREFIX_PATH}/SDL_mixer/lib/cmake/SDL2_mixer")
 
 # change to the project's name
-project(Minesweeper)
+project(project)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SDL2 REQUIRED CONFIG)
