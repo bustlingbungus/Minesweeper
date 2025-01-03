@@ -5,3 +5,6 @@ build/*
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json
+
+# python stuff
+src/Python/__pycache__/
