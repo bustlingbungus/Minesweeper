@@ -14,6 +14,7 @@ SDL_Color getColour(int numSurroundingBombs)
         case 7: return {20,20,20,255};
         case 8: return {30,0,0,255};
     }
+    return {0,0,0,0};
 }
 
 /*
