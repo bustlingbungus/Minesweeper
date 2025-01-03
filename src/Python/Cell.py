@@ -18,74 +18,69 @@ def getColor(numSurroundingBombs):
             return "black"
         case 8:
             return "black"
-        
-        
+
 class Cell:
     
-    def __init__(self, isBomb : bool, surrounding):
-        self.surrounding = surrounding
+    def __init__(self, isBomb : bool, x : int, y : int):
+        if isBomb:
+            self.surrounding_bombs = -1
+        else:
+            self.surrounding_bombs = 0
+        self.revealed = False
+        self.flagged = False
+        self.x, self.y = x, y
         
-        self.num_bombs = 0
-        self.is_revealed = False
-        self.has_flag = False
-            
-    def setSurrounding(self, surrounding):
-        self.surrounding = surrounding
-        self.countSurrounding()
-            
-    def makeBomb(self):
-        self.num_bombs = -1
-            
-    def isBomb(self):
-        return self.num_bombs == -1
+    def isBomb(self) -> bool:
+        return self.surrounding_bombs == -1
     
-    def toggleFlag(self):
-        self.has_flag = not self.has_flag
+    def toggleFlag(self) -> bool:
+        self.flagged = not self.flagged
         return self.isBomb()
     
+    def surrounding(self):
+        from Functions import cells, NX, NY
+        surrounding = []
+        for i in range(self.x-1, self.x+2):
+            if not 0<=i<NX:
+                continue
+            for j in range(self.y-1, self.y+2):
+                if (not 0<=j<NY) or (j==self.y and i==self.x):
+                    continue
+                surrounding.append(cells[i][j])
+        return surrounding
+
     def countSurrounding(self):
         if not self.isBomb():
-            # reset counter
-            self.num_bombs = 0
-            # for each surrounding cell, increment counter for each bomb
-            for cell in self.surrounding:
+            self.surrounding_bombs = 0
+            for cell in self.surrounding():
                 if cell.isBomb():
-                    self.num_bombs += 1
-                    
-    def reveal(self):
-        if self.is_revealed:
-            print("Cell already revealed")
-        else:
-            print("Revealing cell")
+                    self.surrounding_bombs += 1
+        
+    def reveal(self) -> bool:
         # make the cell revealed
-        self.is_revealed = False
+        self.revealed = True
         # If there are not surrounding bombs, reveal all surrounding
-        if self.num_bombs == 0:
-            for cell in self.surrounding:
-                if not cell.is_revealed:
-                    cell.reveal
+        if self.surrounding_bombs == 0:
+            for cell in self.surrounding():
+                if not cell.revealed:
+                    cell.reveal()
                     
         # return whether the cell is a bomb
         return self.isBomb()
-      
-            
-    def render(self, screen : pygame.display.set_mode, font : pygame.font.Font, square : pygame.Rect):
-        # render cell information if revealed
-        if self.is_revealed:
-            # render background first
-            pygame.draw.rect(screen, (170,170,170), square)
-            # render a bomb if cell is a bomb, render the number of bombs otherwise
-            if self.isBomb():
-                print("",end="")
-            elif self.num_bombs > 0:
-                # Create a texture and a rendering rect for the number
-                num = font.render(self.num_bombs, True, getColor(self.num_bombs))
-                num_rect  = num.get_rect(center=(square.x-square.w/2,square.y-square.h/2))
-                # render the texture
-                screen.blit(num, num_rect)
-                
-        # if hidden, just render background, and any flag
-        else:
-            pygame.draw.rect(screen, (90,90,90), square)
-        
     
+    def render(self):
+        from Functions import WINDOW, FONT, CELL_SIZE, FLAG, BOMB
+        rect = pygame.Rect(self.x*CELL_SIZE, self.y*CELL_SIZE, CELL_SIZE, CELL_SIZE)
+        
+        if self.revealed:
+            pygame.draw.rect(WINDOW, (170,170,170), rect)
+            if self.isBomb():
+                WINDOW.blit(BOMB, rect)
+            elif self.surrounding_bombs > 0:
+                num = FONT.render(str(self.surrounding_bombs), True, getColor(self.surrounding_bombs))
+                num_rect = num.get_rect(center=(rect.x+rect.w/2,rect.y+rect.h/2))
+                WINDOW.blit(num, num_rect)
+        else:
+            pygame.draw.rect(WINDOW, (90,90,90), rect)
+            if self.flagged:
+                WINDOW.blit(FLAG, rect)
