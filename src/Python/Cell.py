@@ -3,21 +3,21 @@ import pygame
 def getColor(numSurroundingBombs):
     match (numSurroundingBombs):
         case 1: 
-            return "blue"
+            return (50,50,255)
         case 2:
-            return "green"
+            return (50,255,50)
         case 3: 
-            return "red"
+            return (255,50,50)
         case 4:
-            return "purple"
+            return (170,0,255)
         case 5: 
-            return "yellow"
+            return (255,255,0)
         case 6:
-            return "orange"
+            return (255,150,0)
         case 7: 
-            return "black"
+            return (20,20,20)
         case 8:
-            return "black"
+            return (30,0,0)
 
 class Cell:
     
